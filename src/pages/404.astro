@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro';
+import { siteName, base } from '../site';
+---
+
+<Base title={`Page not found — ${siteName}`}>
+  <div class="not-found">
+    <h1>404</h1>
+    <p>That page does not exist.</p>
+    <p><a href={`${base}/`}>Go home</a></p>
+  </div>
+</Base>

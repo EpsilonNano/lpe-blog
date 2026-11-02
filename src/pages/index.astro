@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+import { siteName, siteDescription } from '../site';
+
+const posts = (
+  await getCollection('blog', ({ data }) => !data.draft)
+).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+---
+
+<Base title={siteName} description={siteDescription}>
+  <h1>Latest stories</h1>
+
+  {
+    posts.length === 0 ? (
+      <p>No stories published yet. Check back soon.</p>
+    ) : (
+      <div class="post-list">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    )
+  }
+</Base>

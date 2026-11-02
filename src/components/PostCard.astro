@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { base } from '../site';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const slug = post.id.replace(/\.md$/, '');
+const date = post.data.publishDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<article class="post-card">
+  {
+    post.data.thumbnail && (
+      <Image
+        src={post.data.thumbnail}
+        alt=""
+        class="post-thumbnail"
+        widths={[400, 800, 1200]}
+        sizes="(max-width: 64rem) 100vw, 64rem"
+      />
+    )
+  }
+  <h2>
+    <a href={`${base}/blog/${slug}/`}>{post.data.title}</a>
+  </h2>
+  <p class="post-meta">
+    <time datetime={post.data.publishDate.toISOString()}>{date}</time>
+    · {post.data.author}
+  </p>
+  <p>{post.data.description}</p>
+</article>

@@ -1,0 +1,16 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { siteName } from '../site';
+
+const entry = await getEntry('about', 'about');
+if (!entry) throw new Error('Missing about page content.');
+
+const { Content } = await render(entry);
+---
+
+<Base title={`${entry.data.title} — ${siteName}`} description={entry.data.description}>
+  <article class="prose">
+    <Content />
+  </article>
+</Base>
